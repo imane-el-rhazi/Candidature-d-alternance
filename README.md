@@ -7,6 +7,8 @@ L'application web est un outil destiné aux entreprises pour gérer les candidat
   Les acteurs du projet :
 ACTEUR 1 :
 RH d'entreprise : Utilise l'application pour visualiser, filtrer et gérer les candidatures des alternants.
+
+
 ACTEUR 2 :
 Alternant : Remplit le formulaire de candidature en ligne et soumet son profil pour postuler à une alternance.
 
