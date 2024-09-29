@@ -1,7 +1,7 @@
 # Condidature-d-alternance
  L'application permet aux entreprises de collecter et visualiser les candidatures d'alternance, facilitant ainsi la gestion et la sélection des profils
 
- # Descriptif rapide :
+  Descriptif rapide :
 L'application web est un outil destiné aux entreprises pour gérer les candidatures d'alternance. Elle permet aux candidats de soumettre leur profil via un formulaire en ligne qui collecte des informations personnelles, académiques et professionnelles, ainsi que des documents comme le CV. Les recruteurs accèdent à un tableau de bord où ils peuvent visualiser, filtrer et trier les profils des candidats, consulter leurs compétences et documents, et sélectionner les profils les plus adaptés.
 
 #  Les acteurs du projet :
