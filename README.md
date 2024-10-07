@@ -26,4 +26,4 @@ Avoir un retour sur sa candidature : Recevoir des notifications sur l'état de l
 Accéder à des informations sur l'entreprise : Connaître les détails du poste ou de l'entreprise à travers l'interface.
 
   Lien de formulaire :
-"https://docs.google.com/forms/d/186rlEnFXy7AVEWUmGUR0eVTKNT66Oi_2_7eCWoX0xLE/edit"
+(https://docs.google.com/forms/d/186rlEnFXy7AVEWUmGUR0eVTKNT66Oi_2_7eCWoX0xLE/edit)
