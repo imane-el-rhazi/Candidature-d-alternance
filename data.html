@@ -1,69 +1,121 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Récupérer les données avec D3.js - Tableau</title>
-    <!-- Inclusion de D3.js -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <title>Donut Chart Example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
 </head>
 <body>
 
-    <h1>Tableau des données avec D3.js</h1>
-    
-    <!-- Conteneur pour le tableau -->
-    <table id="data-table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Valeur</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Les données seront insérées ici -->
-        </tbody>
-    </table>
+<div id="chartArea"></div>
+<div id="modalEtu" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalEtuTitle" class="modal-title">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalEtuBody">
+                <div id="diigoTags"></div>
+                <div id="sitePerso"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script>
-        // Exemple de données CSV en tant que texte
-        const csvData = `
-        nom,valeur
-        Apple,30
-        Banana,80
-        Orange,45
-        Kiwi,60
-        Mango,70`;
+<script>
+    // Function to create a donut chart
+    function donutChart() {
+        // ... (existing donutChart function code here) ...
+    }
 
-        // Parseur CSV pour transformer le texte en données exploitables
-        const data = d3.csvParse(csvData);
-
-        // Sélection du corps du tableau
-        const tbody = d3.select("#data-table tbody");
-
-        // Ajout des données sous forme de lignes dans le tableau
-        data.forEach(d => {
-            const row = tbody.append("tr");
-            row.append("td").text(d.nom);
-            row.append("td").text(d.valeur);
+    // Function to fetch data
+    function fetchData(url) {
+        return $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json'
         });
-    </script>
-    
+    }
+
+    // Function to render a chart (example)
+    function renderChart(data) {
+        const svg = d3.select("#chartArea").append("svg")
+            .attr("width", 500)
+            .attr("height", 300);
+        
+        svg.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("x", (d, i) => i * 30)
+            .attr("y", d => 300 - d.value)
+            .attr("width", 25)
+            .attr("height", d => d.value)
+            .attr("fill", "blue");
+    }
+
+    // Event listener for opening the modal
+    $('#infosEtu').on('show.bs.modal', function (e) {
+        console.log(selectEtu);
+        d3.select('#modalEtuTitle').text(selectEtu['Votre prénom'] + ' ' + selectEtu['Votre nom']);
+        var url = "http://www.samszo.univ-paris8.fr/DWM/18-19/diigo.php?user=" + selectEtu['Votre compte Diigo'];
+        var htm = '<p><a href="' + url + '">' + url + '</a></p>';
+        htm += '<iframe id="ifDiigoEtu" title="Diigo étudiant" src="' + url + '"></iframe>';
+        d3.select('#diigoTags').html(htm);
+        url = "../" + selectEtu['Votre compte GitHub'] + "/modele.svg";
+        htm = '<p><a href="' + url + '">' + url + '</a></p>';
+        htm += '<iframe id="ifSitePerso" title="Modèle SVG" src="' + url + '"></iframe>';
+        d3.select('#sitePerso').html(htm);
+    });
+
+    // Event listener for when the modal is fully shown
+    $('#infosEtu').on('shown.bs.modal', function (e) {
+        d3.select("#myTabContent").style('height', d3.select("#modalEtuBody").style('height'));
+        $('#sitePerso').tab('show');
+    });
+
+    // Function to convert markdown to HTML
+    function mdToHtml(url, cont) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            crossDomain: true,
+            success: function(data) { 
+                var converter = new showdown.Converter();
+                var html = converter.makeHtml(data);
+                cont.html(html);
+            },
+            error: function(error) { 
+                console.log(error); 
+            },
+        });
+    }
+
+    // Initialize chart with sample data
+    const sampleData = [
+        { prop: 'Category 1', importance: 30, couleur: 'red' },
+        { prop: 'Category 2', importance: 70, couleur: 'blue' }
+    ];
+
+    // Call the donut chart function
+    donutChart()
+        .width(300)
+        .height(300)
+        .variable('importance')
+        .category('prop')
+        .title('Sample Donut Chart')(d3.select("#chartArea").datum(sampleData));
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </body>
 </html>
