@@ -27,7 +27,8 @@
 </head>
 <body>
     <h1>Données du CSV</h1>
-    <div id="data"></div>
+    <div id="data">Chargement des données...</div>
+    <div id="error-message" style="color: red;"></div>
 
     <script>
         // Lien vers le fichier CSV
@@ -37,8 +38,18 @@
             download: true,
             header: true,
             complete: function(results) {
-                console.log(results.data);  // Visualiser les données pour vérifier les noms des colonnes
+                if (results.errors.length) {
+                    displayError('Erreur lors du chargement des données : ' + results.errors[0].message);
+                    return;
+                }
+                if (results.data.length === 0) {
+                    displayError('Aucune donnée trouvée dans le fichier CSV.');
+                    return;
+                }
                 displayData(results.data);
+            },
+            error: function(error) {
+                displayError('Erreur lors de la récupération du fichier : ' + error.message);
             }
         });
 
@@ -64,6 +75,12 @@
             html += '</tbody></table>';
 
             dataDiv.innerHTML = html;
+        }
+
+        function displayError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.innerText = message;
+            document.getElementById('data').innerText = ''; // Vider le div de données
         }
     </script>
 </body>
