@@ -22,6 +22,27 @@
         th {
             background-color: #f2f2f2;
         }
+        tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            z-index: 1000;
+        }
+        .popup .close {
+            cursor: pointer;
+            color: red;
+            float: right;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -41,15 +62,21 @@
         </tbody>
     </table>
 
+    <!-- Popup pour les détails supplémentaires -->
+    <div id="popup" class="popup">
+        <span class="close" onclick="closePopup()">×</span>
+        <div id="extra-details"></div>
+    </div>
+
     <script>
         // Exemple de données CSV en tant que texte
         const csvData = `
-        nom,valeur
-        Apple,30
-        Banana,80
-        Orange,45
-        Kiwi,60
-        Mango,70`;
+        nom,valeur,details
+        Apple,30,Détails sur la pomme
+        Banana,80,Détails sur la banane
+        Orange,45,Détails sur l'orange
+        Kiwi,60,Détails sur le kiwi
+        Mango,70,Détails sur la mangue`;
 
         // Parseur CSV pour transformer le texte en données exploitables
         const data = d3.csvParse(csvData);
@@ -58,11 +85,25 @@
         const tbody = d3.select("#data-table tbody");
 
         // Ajout des données sous forme de lignes dans le tableau
-        data.forEach(d => {
-            const row = tbody.append("tr");
+        data.forEach((d, index) => {
+            const row = tbody.append("tr").on("click", () => showExtraDetails(index));
             row.append("td").text(d.nom);
             row.append("td").text(d.valeur);
         });
+
+        // Fonction pour afficher les détails supplémentaires
+        function showExtraDetails(rowIndex) {
+            const row = data[rowIndex];
+            let extraHtml = `<h2>Informations supplémentaires</h2>
+                             <p><strong>Détails:</strong> ${row.details || 'N/A'}</p>`;
+            document.getElementById('extra-details').innerHTML = extraHtml;
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        // Fonction pour fermer le popup
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
     </script>
     
 </body>
