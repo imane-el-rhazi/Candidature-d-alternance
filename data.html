@@ -3,108 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Récupérer les données avec D3.js - Tableau</title>
-    <!-- Inclusion de D3.js -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Récupérer les données CSV - Tableau</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         table {
-            width: 50%;
+            width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid black;
         }
         th, td {
+            border: 1px solid black;
             padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #4CAF50;
+            color: white;
         }
         tr:hover {
             background-color: #f5f5f5;
             cursor: pointer;
         }
-        .popup {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border: 2px solid #4CAF50;
-            z-index: 1000;
-        }
-        .popup .close {
-            cursor: pointer;
-            color: red;
-            float: right;
-            font-size: 18px;
-        }
     </style>
 </head>
 <body>
-
-    <h1>Tableau des données avec D3.js</h1>
-    
-    <!-- Conteneur pour le tableau -->
-    <table id="data-table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Valeur</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Les données seront insérées ici -->
-        </tbody>
-    </table>
-
-    <!-- Popup pour les détails supplémentaires -->
-    <div id="popup" class="popup">
-        <span class="close" onclick="closePopup()">×</span>
-        <div id="extra-details"></div>
-    </div>
+    <h1>Données du CSV</h1>
+    <div id="data"></div>
 
     <script>
-        // Exemple de données CSV en tant que texte
-        const csvData = `
-        nom,valeur,details
-        Apple,30,Détails sur la pomme
-        Banana,80,Détails sur la banane
-        Orange,45,Détails sur l'orange
-        Kiwi,60,Détails sur le kiwi
-        Mango,70,Détails sur la mangue`;
+        // Lien vers le fichier CSV
+        const CSV_URL = 'https://drive.google.com/uc?export=download&id=ID_DU_FICHIER'; // Remplacez ID_DU_FICHIER par l'ID de votre fichier
 
-        // Parseur CSV pour transformer le texte en données exploitables
-        const data = d3.csvParse(csvData);
-
-        // Sélection du corps du tableau
-        const tbody = d3.select("#data-table tbody");
-
-        // Ajout des données sous forme de lignes dans le tableau
-        data.forEach((d, index) => {
-            const row = tbody.append("tr").on("click", () => showExtraDetails(index));
-            row.append("td").text(d.nom);
-            row.append("td").text(d.valeur);
+        Papa.parse(CSV_URL, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                console.log(results.data);  // Visualiser les données pour vérifier les noms des colonnes
+                displayData(results.data);
+            }
         });
 
-        // Fonction pour afficher les détails supplémentaires
-        function showExtraDetails(rowIndex) {
-            const row = data[rowIndex];
-            let extraHtml = `<h2>Informations supplémentaires</h2>
-                             <p><strong>Détails:</strong> ${row.details || 'N/A'}</p>`;
-            document.getElementById('extra-details').innerHTML = extraHtml;
-            document.getElementById('popup').style.display = 'block';
-        }
+        function displayData(data) {
+            const displayedKeys = Object.keys(data[0]); // Récupérer toutes les colonnes
+            const dataDiv = document.getElementById('data');
+            let html = '<table><thead><tr>';
 
-        // Fonction pour fermer le popup
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
+            // Afficher les noms des colonnes
+            displayedKeys.forEach(key => {
+                html += `<th>${key}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            // Remplir les données
+            data.forEach(row => {
+                html += '<tr>';
+                displayedKeys.forEach(key => {
+                    html += `<td>${row[key] || ''}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+
+            dataDiv.innerHTML = html;
         }
     </script>
-    
 </body>
 </html>
