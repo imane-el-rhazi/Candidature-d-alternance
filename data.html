@@ -5,15 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Données CSV avec Détails dans une Modale</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
     /* Styles de la table */
     table {
       width: 100%;
       border-collapse: collapse;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      margin-bottom: 20px;
     }
+
     th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
+      border: 1px solid #ddd;
+      padding: 12px;
       text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+      cursor: pointer;
     }
 
     /* Styles de la modale */
@@ -26,26 +53,36 @@
       width: 100%; /* Pleine largeur */
       height: 100%; /* Pleine hauteur */
       overflow: auto; /* Permet le défilement si nécessaire */
-      background-color: rgba(0,0,0,0.4); /* Fond noir avec transparence */
+      background-color: rgba(0,0,0,0.5); /* Fond noir avec transparence */
     }
+
     .modal-content {
       background-color: #fefefe;
       margin: 15% auto; /* 15% du haut et centrer */
       padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Largeur de la modale */
+      border-radius: 5px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 90%; /* Largeur de la modale */
+      max-width: 600px; /* Largeur maximum */
     }
+
     .close {
       color: #aaa;
       float: right;
       font-size: 28px;
       font-weight: bold;
     }
+
     .close:hover,
     .close:focus {
-      color: black;
+      color: #000;
       text-decoration: none;
       cursor: pointer;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #333;
     }
   </style>
 </head>
