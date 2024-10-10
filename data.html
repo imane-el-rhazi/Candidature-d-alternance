@@ -157,4 +157,37 @@
     document.getElementById('detailCertifications').textContent = columns[11] || 'Non disponible';  // Certifications
     document.getElementById('detailProjet').textContent = columns[12] || 'Non disponible';  // Projet
     document.getElementById('detailCompetences').textContent = columns[13] || 'Non disponible';  // Compétences
-   
+    document.getElementById('detailAlternance').textContent = columns[14] || 'Non disponible';  // Alternance
+    document.getElementById('detailExperience').textContent = columns[15] || 'Non disponible';  // Expérience
+    document.getElementById('detailTravailEquipe').textContent = columns[16] || 'Non disponible';  // Travail en équipe
+    document.getElementById('detailCompetencesPro').textContent = columns[17] || 'Non disponible';  // Compétences professionnelles
+    document.getElementById('detailDuree').textContent = columns[18] || 'Non disponible';  // Durée
+    document.getElementById('detailLogiciels').textContent = columns[19] || 'Non disponible';  // Logiciels
+    document.getElementById('detailExpertise').textContent = columns[20] || 'Non disponible';  // Expertise
+    document.getElementById('detailLangues').textContent = columns[21] || 'Non disponible';  // Langues
+    document.getElementById('detailGestion').textContent = columns[22] || 'Non disponible';  // Gestion
+    document.getElementById('detailMotivation').textContent = columns[23] || 'Non disponible';  // Motivation
+    document.getElementById('detailProjetPro').textContent = columns[24] || 'Non disponible';  // Projet pro
+    document.getElementById('detailValeurs').textContent = columns[25] || 'Non disponible';  // Valeurs
+    document.getElementById('detailAttentes').textContent = columns[26] || 'Non disponible';  // Attentes
+    document.getElementById('detailAutres').textContent = columns[27] || 'Non disponible';  // Autres
+
+    // Afficher la modale
+    modal.style.display = "block";
+  }
+
+  // Lorsque l'utilisateur clique sur la croix de fermeture, fermer la modale
+  closeModal.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // Lorsque l'utilisateur clique en dehors de la modale, fermer la modale
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+
+</body>
+</html>
