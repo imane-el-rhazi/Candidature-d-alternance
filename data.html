@@ -75,6 +75,9 @@
     <p><strong>Téléphone:</strong> <span id="detailTel"></span></p>
     <p><strong>Email:</strong> <span id="detailEmail"></span></p>
     <p><strong>Adresse:</strong> <span id="detailAdresse"></span></p>
+    <!-- Ajoute d'autres champs si nécessaire -->
+    <p><strong>Autre champ 1:</strong> <span id="detailAutre1"></span></p>
+    <p><strong>Autre champ 2:</strong> <span id="detailAutre2"></span></p>
   </div>
 </div>
 
@@ -127,6 +130,9 @@
     document.getElementById('detailTel').textContent = columns[2];  // Téléphone
     document.getElementById('detailEmail').textContent = columns[3] || 'Non disponible';  // Email
     document.getElementById('detailAdresse').textContent = columns[4] || 'Non disponible';  // Adresse
+    document.getElementById('detailAutre1').textContent = columns[5] || 'Non disponible';  // Autre champ 1
+    document.getElementById('detailAutre2').textContent = columns[6] || 'Non disponible';  // Autre champ 2
+    // Ajoute d'autres champs si nécessaire
 
     // Afficher la modale
     modal.style.display = "block";
