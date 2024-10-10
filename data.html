@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Données CSV avec Détails</title>
+  <title>Données CSV avec Détails sous le Tableau</title>
   <style>
     #details {
-      display: none;
       margin-top: 20px;
       border: 1px solid #ccc;
       padding: 10px;
+      display: none;  /* Les détails ne sont pas affichés par défaut */
     }
   </style>
 </head>
@@ -29,8 +29,9 @@
   </tbody>
 </table>
 
+<!-- Section des détails qui s'affichera sous le tableau -->
 <div id="details">
-  <h3>Détails</h3>
+  <h3>Détails de la personne</h3>
   <p><strong>Nom:</strong> <span id="detailNom"></span></p>
   <p><strong>Prénom:</strong> <span id="detailPrenom"></span></p>
   <p><strong>Téléphone:</strong> <span id="detailTel"></span></p>
@@ -49,7 +50,7 @@
 
       rows.forEach((row, index) => {
         const columns = row.split(',');  // Sépare chaque cellule par la virgule
-        if (index > 0 && columns.length > 1) {  // Ignorer la première ligne (header) et vérifier qu'il y a des colonnes
+        if (index > 0 && columns.length > 1) {  // Ignorer la première ligne (en-tête) et vérifier qu'il y a des colonnes
           const tableRow = document.createElement('tr');
           
           // Création des cellules pour Nom, Prénom, Téléphone
@@ -78,7 +79,7 @@
     })
     .catch(error => console.error('Erreur lors du chargement du CSV:', error));
 
-  // Fonction pour afficher les détails de la personne
+  // Fonction pour afficher les détails de la personne sous le tableau
   function afficherDetails(columns) {
     document.getElementById('detailNom').textContent = columns[0];  // Nom
     document.getElementById('detailPrenom').textContent = columns[1];  // Prénom
@@ -86,7 +87,8 @@
     document.getElementById('detailEmail').textContent = columns[3] || 'Non disponible';  // Email
     document.getElementById('detailAdresse').textContent = columns[4] || 'Non disponible';  // Adresse
 
-    document.getElementById('details').style.display = 'block';  // Affiche la section des détails
+    // Afficher la section des détails
+    document.getElementById('details').style.display = 'block';
   }
 </script>
 
