@@ -51,7 +51,7 @@
 </head>
 <body>
 
-<h2>Liste des Contacts</h2>
+<h2>Liste des Candidats</h2>
 <table id="dataTable" border="1">
   <thead>
     <tr>
@@ -69,15 +69,34 @@
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h3>Détails de la personne</h3>
+    <h3>Détails de la Candidature</h3>
     <p><strong>Nom:</strong> <span id="detailNom"></span></p>
     <p><strong>Prénom:</strong> <span id="detailPrenom"></span></p>
     <p><strong>Téléphone:</strong> <span id="detailTel"></span></p>
     <p><strong>Email:</strong> <span id="detailEmail"></span></p>
     <p><strong>Adresse:</strong> <span id="detailAdresse"></span></p>
-    <!-- Ajoute d'autres champs si nécessaire -->
-    <p><strong>Autre champ 1:</strong> <span id="detailAutre1"></span></p>
-    <p><strong>Autre champ 2:</strong> <span id="detailAutre2"></span></p>
+    <p><strong>Lieu de résidence:</strong> <span id="detailLieu"></span></p>
+    <p><strong>Profil LinkedIn:</strong> <span id="detailLinkedIn"></span></p>
+    <p><strong>Niveau d'études:</strong> <span id="detailNiveau"></span></p>
+    <p><strong>Spécialité:</strong> <span id="detailSpecialite"></span></p>
+    <p><strong>Établissement:</strong> <span id="detailEtablissement"></span></p>
+    <p><strong>Certifications:</strong> <span id="detailCertifications"></span></p>
+    <p><strong>Projet académique:</strong> <span id="detailProjet"></span></p>
+    <p><strong>Compétences acquises:</strong> <span id="detailCompetences"></span></p>
+    <p><strong>Expérience en alternance:</strong> <span id="detailAlternance"></span></p>
+    <p><strong>Détails de l'expérience:</strong> <span id="detailExperience"></span></p>
+    <p><strong>Travail en équipe:</strong> <span id="detailTravailEquipe"></span></p>
+    <p><strong>Compétences professionnelles:</strong> <span id="detailCompetencesPro"></span></p>
+    <p><strong>Durée du contrat:</strong> <span id="detailDuree"></span></p>
+    <p><strong>Logiciels maîtrisés:</strong> <span id="detailLogiciels"></span></p>
+    <p><strong>Expertise technique:</strong> <span id="detailExpertise"></span></p>
+    <p><strong>Langues:</strong> <span id="detailLangues"></span></p>
+    <p><strong>Gestion du temps:</strong> <span id="detailGestion"></span></p>
+    <p><strong>Motivation:</strong> <span id="detailMotivation"></span></p>
+    <p><strong>Projet professionnel:</strong> <span id="detailProjetPro"></span></p>
+    <p><strong>Valeurs de l'entreprise:</strong> <span id="detailValeurs"></span></p>
+    <p><strong>Attentes:</strong> <span id="detailAttentes"></span></p>
+    <p><strong>Autres informations:</strong> <span id="detailAutres"></span></p>
   </div>
 </div>
 
@@ -102,9 +121,9 @@
           const prenomCell = document.createElement('td');
           const telCell = document.createElement('td');
 
-          nomCell.textContent = columns[0];   // Nom
+          nomCell.textContent = columns[2];   // Nom
           prenomCell.textContent = columns[1];  // Prénom
-          telCell.textContent = columns[2];    // Téléphone
+          telCell.textContent = columns[4];    // Téléphone
 
           // Ajouter un événement de clic sur la ligne
           tableRow.addEventListener('click', () => {
@@ -125,31 +144,17 @@
 
   // Fonction pour afficher les détails de la personne dans la modale
   function afficherDetails(columns) {
-    document.getElementById('detailNom').textContent = columns[0];  // Nom
+    document.getElementById('detailNom').textContent = columns[2];  // Nom
     document.getElementById('detailPrenom').textContent = columns[1];  // Prénom
-    document.getElementById('detailTel').textContent = columns[2];  // Téléphone
+    document.getElementById('detailTel').textContent = columns[4];  // Téléphone
     document.getElementById('detailEmail').textContent = columns[3] || 'Non disponible';  // Email
-    document.getElementById('detailAdresse').textContent = columns[4] || 'Non disponible';  // Adresse
-    document.getElementById('detailAutre1').textContent = columns[5] || 'Non disponible';  // Autre champ 1
-    document.getElementById('detailAutre2').textContent = columns[6] || 'Non disponible';  // Autre champ 2
-    // Ajoute d'autres champs si nécessaire
-
-    // Afficher la modale
-    modal.style.display = "block";
-  }
-
-  // Fonction pour fermer la modale
-  closeModal.onclick = function() {
-    modal.style.display = "none";
-  }
-
-  // Fermer la modale lorsque l'utilisateur clique en dehors de la modale
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-</script>
-
-</body>
-</html>
+    document.getElementById('detailAdresse').textContent = columns[5] || 'Non disponible';  // Adresse
+    document.getElementById('detailLieu').textContent = columns[6] || 'Non disponible';  // Lieu
+    document.getElementById('detailLinkedIn').textContent = columns[7] || 'Non disponible';  // LinkedIn
+    document.getElementById('detailNiveau').textContent = columns[8] || 'Non disponible';  // Niveau
+    document.getElementById('detailSpecialite').textContent = columns[9] || 'Non disponible';  // Spécialité
+    document.getElementById('detailEtablissement').textContent = columns[10] || 'Non disponible';  // Établissement
+    document.getElementById('detailCertifications').textContent = columns[11] || 'Non disponible';  // Certifications
+    document.getElementById('detailProjet').textContent = columns[12] || 'Non disponible';  // Projet
+    document.getElementById('detailCompetences').textContent = columns[13] || 'Non disponible';  // Compétences
+   
