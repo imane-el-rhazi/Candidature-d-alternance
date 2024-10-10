@@ -3,13 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Données CSV avec Détails sous le Tableau</title>
+  <title>Données CSV avec Détails dans une Modale</title>
   <style>
-    #details {
-      margin-top: 20px;
+    /* Styles de la table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
       border: 1px solid #ccc;
       padding: 10px;
-      display: none;  /* Les détails ne sont pas affichés par défaut */
+      text-align: left;
+    }
+
+    /* Styles de la modale */
+    .modal {
+      display: none; /* Cacher par défaut */
+      position: fixed;
+      z-index: 1; /* Au-dessus de tout le reste */
+      left: 0;
+      top: 0;
+      width: 100%; /* Pleine largeur */
+      height: 100%; /* Pleine hauteur */
+      overflow: auto; /* Permet le défilement si nécessaire */
+      background-color: rgba(0,0,0,0.4); /* Fond noir avec transparence */
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% du haut et centrer */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Largeur de la modale */
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -29,18 +65,23 @@
   </tbody>
 </table>
 
-<!-- Section des détails qui s'affichera sous le tableau -->
-<div id="details">
-  <h3>Détails de la personne</h3>
-  <p><strong>Nom:</strong> <span id="detailNom"></span></p>
-  <p><strong>Prénom:</strong> <span id="detailPrenom"></span></p>
-  <p><strong>Téléphone:</strong> <span id="detailTel"></span></p>
-  <p><strong>Email:</strong> <span id="detailEmail"></span></p>
-  <p><strong>Adresse:</strong> <span id="detailAdresse"></span></p>
+<!-- Modale pour afficher les détails -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Détails de la personne</h3>
+    <p><strong>Nom:</strong> <span id="detailNom"></span></p>
+    <p><strong>Prénom:</strong> <span id="detailPrenom"></span></p>
+    <p><strong>Téléphone:</strong> <span id="detailTel"></span></p>
+    <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+    <p><strong>Adresse:</strong> <span id="detailAdresse"></span></p>
+  </div>
 </div>
 
 <script>
   const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaV1ozXhr-Xd7eR7YwPUrs6rT_tZpodMGMmWd-HPrvXqGRKZ7ZSdoqe5ZrR7QZb4O-638yjrHKbH-s/pub?gid=804518933&single=true&output=csv';
+  const modal = document.getElementById("myModal");
+  const closeModal = document.getElementsByClassName("close")[0];
 
   fetch(csvUrl)
     .then(response => response.text())
@@ -50,7 +91,7 @@
 
       rows.forEach((row, index) => {
         const columns = row.split(',');  // Sépare chaque cellule par la virgule
-        if (index > 0 && columns.length > 1) {  // Ignorer la première ligne (en-tête) et vérifier qu'il y a des colonnes
+        if (index > 0 && columns.length > 1) {  // Ignorer la première ligne (header) et vérifier qu'il y a des colonnes
           const tableRow = document.createElement('tr');
           
           // Création des cellules pour Nom, Prénom, Téléphone
@@ -79,7 +120,7 @@
     })
     .catch(error => console.error('Erreur lors du chargement du CSV:', error));
 
-  // Fonction pour afficher les détails de la personne sous le tableau
+  // Fonction pour afficher les détails de la personne dans la modale
   function afficherDetails(columns) {
     document.getElementById('detailNom').textContent = columns[0];  // Nom
     document.getElementById('detailPrenom').textContent = columns[1];  // Prénom
@@ -87,8 +128,20 @@
     document.getElementById('detailEmail').textContent = columns[3] || 'Non disponible';  // Email
     document.getElementById('detailAdresse').textContent = columns[4] || 'Non disponible';  // Adresse
 
-    // Afficher la section des détails
-    document.getElementById('details').style.display = 'block';
+    // Afficher la modale
+    modal.style.display = "block";
+  }
+
+  // Fonction pour fermer la modale
+  closeModal.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // Fermer la modale lorsque l'utilisateur clique en dehors de la modale
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 </script>
 
