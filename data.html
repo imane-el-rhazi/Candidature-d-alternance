@@ -3,24 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Données CSV</title>
+  <title>Données CSV avec Détails</title>
+  <style>
+    #details {
+      display: none;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Tableau des données CSV</h2>
+<h2>Liste des Contacts</h2>
 <table id="dataTable" border="1">
   <thead>
     <tr>
-      <!-- Tu peux adapter les noms des colonnes ici -->
-      <th>Colonne 1</th>
-      <th>Colonne 2</th>
-      <th>Colonne 3</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Téléphone</th>
     </tr>
   </thead>
   <tbody>
     <!-- Les données CSV seront insérées ici -->
   </tbody>
 </table>
+
+<div id="details">
+  <h3>Détails</h3>
+  <p><strong>Nom:</strong> <span id="detailNom"></span></p>
+  <p><strong>Prénom:</strong> <span id="detailPrenom"></span></p>
+  <p><strong>Téléphone:</strong> <span id="detailTel"></span></p>
+  <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+  <p><strong>Adresse:</strong> <span id="detailAdresse"></span></p>
+</div>
 
 <script>
   const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaV1ozXhr-Xd7eR7YwPUrs6rT_tZpodMGMmWd-HPrvXqGRKZ7ZSdoqe5ZrR7QZb4O-638yjrHKbH-s/pub?gid=804518933&single=true&output=csv';
@@ -30,21 +46,48 @@
     .then(csvText => {
       const rows = csvText.split('\n');  // Sépare chaque ligne du CSV
       const tableBody = document.querySelector('#dataTable tbody');
-      
+
       rows.forEach((row, index) => {
         const columns = row.split(',');  // Sépare chaque cellule par la virgule
-        const tableRow = document.createElement('tr');
-        
-        columns.forEach(column => {
-          const cell = document.createElement(index === 0 ? 'th' : 'td');
-          cell.textContent = column;
-          tableRow.appendChild(cell);
-        });
+        if (index > 0 && columns.length > 1) {  // Ignorer la première ligne (header) et vérifier qu'il y a des colonnes
+          const tableRow = document.createElement('tr');
+          
+          // Création des cellules pour Nom, Prénom, Téléphone
+          const nomCell = document.createElement('td');
+          const prenomCell = document.createElement('td');
+          const telCell = document.createElement('td');
 
-        tableBody.appendChild(tableRow);
+          nomCell.textContent = columns[0];   // Nom
+          prenomCell.textContent = columns[1];  // Prénom
+          telCell.textContent = columns[2];    // Téléphone
+
+          // Ajouter un événement de clic sur la ligne
+          tableRow.addEventListener('click', () => {
+            afficherDetails(columns);  // Appelle la fonction pour afficher les détails
+          });
+
+          // Ajouter les cellules à la ligne
+          tableRow.appendChild(nomCell);
+          tableRow.appendChild(prenomCell);
+          tableRow.appendChild(telCell);
+
+          // Ajouter la ligne au tableau
+          tableBody.appendChild(tableRow);
+        }
       });
     })
     .catch(error => console.error('Erreur lors du chargement du CSV:', error));
+
+  // Fonction pour afficher les détails de la personne
+  function afficherDetails(columns) {
+    document.getElementById('detailNom').textContent = columns[0];  // Nom
+    document.getElementById('detailPrenom').textContent = columns[1];  // Prénom
+    document.getElementById('detailTel').textContent = columns[2];  // Téléphone
+    document.getElementById('detailEmail').textContent = columns[3] || 'Non disponible';  // Email
+    document.getElementById('detailAdresse').textContent = columns[4] || 'Non disponible';  // Adresse
+
+    document.getElementById('details').style.display = 'block';  // Affiche la section des détails
+  }
 </script>
 
 </body>
