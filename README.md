@@ -27,3 +27,6 @@ Accéder à des informations sur l'entreprise : Connaître les détails du poste
 
 <p><a href="https://docs.google.com/forms/d/186rlEnFXy7AVEWUmGUR0eVTKNT66Oi_2_7eCWoX0xLE/edit">Lien de formulaire</a></p>
 
+L’api ROME est une des API https://francetravail.io/produits-partages/catalogue :
+on peut notamment accéder aux demandes d’emploi voir de stage (à vérifier)
+
