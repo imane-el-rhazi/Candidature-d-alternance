@@ -13,6 +13,14 @@ alt:Candidat a rdfs:Class ;
     rdfs:label "Candidat à l'alternance" ;
     rdfs:comment "Représente une personne soumettant sa candidature pour un poste en alternance." .
 
+alt:Candidature a rdfs:Class ;
+    rdfs:label "Candidature" ;
+    rdfs:comment "Représente la soumission d'une demande pour un poste en alternance." .
+
+alt:Entreprise a rdfs:Class ;
+    rdfs:label "Entreprise" ;
+    rdfs:comment "Représente l'entreprise qui propose des postes en alternance." .
+
 # Propriétés
 alt:Nom a rdf:Property ;
     rdfs:label "Nom de famille" ;
