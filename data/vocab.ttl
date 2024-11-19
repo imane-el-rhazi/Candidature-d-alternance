@@ -203,7 +203,7 @@ alt:EntrepriseNom a rdf:Property ;
 
 alt:Specialite a rdf:Property ;
     rdfs:label "Specialité" ;
-    rdfs:comment "Specialité de l'entreprise." ;
+    rdfs:comment "Spécialité de l'entreprise." ;
     rdfs:domain alt:Entreprise ;
     rdfs:range xsd:string .
 
