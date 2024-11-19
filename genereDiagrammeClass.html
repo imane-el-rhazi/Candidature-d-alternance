@@ -3,94 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagramme de Classes avec Mermaid.js</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Diagramme de Classe Mermaid Dynamique</title>
     <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: false }); // Désactive le démarrage automatique
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({ startOnLoad: false });
+        window.mermaid = mermaid;
     </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+   
 </head>
 <body>
-    <h1>Diagramme de Classes avec Mermaid.js</h1>
-    <div class="mermaid" id="mermaid-container"></div> <!-- Conteneur pour le diagramme Mermaid -->
 
-    <script>
-        // URL de l'API pour récupérer les données
-        let url = "http://localhost/omeka-pr/admin/resource-template/2";
+<div class="mermaid" id="classDiagram"></div>
+<script>
+const apiUrl = "https://api.github.com/repos/imane-el-rhazi/Candidature-d-alternance/contents/data/rt";
+let mermaidText = "classDiagram\n";
 
-        // Récupération des données avec D3.js
-        d3.json(url).then(data => {
-            // Construction du code Mermaid du diagramme de classes
-            let mermaidCode = `
-                classDiagram
-                class Candidat {
-                    +int idCandidat
-                    +String nom
-                    +String prenom
-                    +String email
-                    +String telephone
-                    +String lieuResidence
-                    +String profilLinkedIn
-                    +String niveauEtudes
-                    +String domaineEtudes
-                    +String etablissementScolaire
-                    +List~String~ certifications
-                    +String projetAcademique
-                    +String competencesSavoirs
-                    +boolean posteEnAlternance
-                    +String experienceProfessionnelle
-                    +String travailEnEquipe
-                    +List~String~ competencesDeveloppees
-                    +String dureeContrat
-                    +List~String~ logicielsOutils
-                    +String expertiseTechnique
-                    +Map~String, String~ langues
-                    +String gestionTempsOrganisation
-                    +String raisonsRejoindreEntreprise
-                    +String projetProfessionnel
-                    +String valeursAttirantes
-                    +String attentesExperience
-                    +String sourceOffre
-                    +String autresInformations
-                    +soumettreCandidature()
-                    +mettreAJourCandidature()
-                }
+d3.json(apiUrl)
+    .then(files => {
+        const jsonFiles = files.filter(file => file.name.endsWith(".json"));
+        const filePromises = jsonFiles.map(file => d3.json(file.download_url));
+        Promise.all(filePromises)
+            .then(fileContents => {
+                fileContents.forEach(data => {
+                    mermaidText += `class ${data['o:label']} {\n`;
+                    const properties = data["o:resource_template_property"];
+                    properties.forEach(prop => {
+                        const label = prop.label;
+                        const localName = prop.local_name;
+                        const type = (localName === "aUtiliseMobile" || localName === "estInteresséParEcommerce") ? "Boolean" : "String";
+                        mermaidText += `    +${type} ${label}\n`;
+                    });
+                    mermaidText += "}\n";
+                });
+                document.getElementById("classDiagram").innerHTML = mermaidText;
+                mermaid.init(undefined, document.querySelectorAll(".mermaid"));
+            })
+            .catch(error => {
+                console.log("Erreur lors de la récupération des données des fichiers JSON :", error);
+            });
+    })
+    .catch(error => {
+        console.log("Erreur lors de la récupération des fichiers depuis l'API GitHub :", error);
+    });
+</script>
 
-                class Candidature {
-                    +int idCandidature
-                    +Date dateSoumission
-                    +String etat
-                    +String commentaireRH
-                    +mettreAJourEtat()
-                    +ajouterCommentaireRH()
-                }
-
-                class Recruteur {
-                    +int idRecruteur
-                    +String nom
-                    +String email
-                    +String telephone
-                    +filtrerCandidatures()
-                    +consulterProfilCandidat()
-                }
-
-                Candidat "1" --> "1" Candidature : soumet
-                Candidature "1" --> "1" Recruteur : consultéePar
-                Recruteur "1" --> "many" Candidature : gère
-
-                style Candidat fill:#bfb,stroke:#6f6,stroke-width:2px,color:#000,stroke-dasharray: 5 5
-                style Candidature fill:#9ff,stroke:#369,stroke-width:2px,color:#000,stroke-dasharray: 5 5
-                style Recruteur fill:#bfb,stroke:#6f6,stroke-width:2px,color:#000,stroke-dasharray: 5 5
-            `;
-
-            // Injectez le code Mermaid dans le conteneur
-            document.getElementById("mermaid-container").innerText = mermaidCode;
-
-            // Rendu du diagramme avec Mermaid
-            mermaid.init();
-        }).catch(error => {
-            console.error("Erreur lors de la récupération des données:", error);
-        });
-    </script>
 </body>
 </html>
